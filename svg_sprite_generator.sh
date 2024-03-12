@@ -9,6 +9,7 @@ git clone --depth 1 --branch v2.1.1  https://github.com/tailwindlabs/heroicons.g
 process_svg_files() {
     local SVG_DIR=$1
     local OUTPUT_FILE=$2
+    local ICON_SIZE=$3
 
     echo '<svg style="display: none;">' > "$OUTPUT_FILE"
 
@@ -16,7 +17,7 @@ process_svg_files() {
         FILENAME=$(basename "$file" .svg)
         SVG_CONTENT=$(sed '/<?xml/d;/<!DOCTYPE/d;/<svg/d;/<\/svg/d' "$file")
 
-        echo "<symbol id=\"$FILENAME\" viewBox=\"0 0 24 24\">" >> "$OUTPUT_FILE"
+        echo "<symbol id=\"heroicon-$FILENAME\" viewBox=\"0 0 $ICON_SIZE $ICON_SIZE\">" >> "$OUTPUT_FILE"
         echo $SVG_CONTENT >> "$OUTPUT_FILE"
         echo "</symbol>" >> "$OUTPUT_FILE"
     done
@@ -27,7 +28,7 @@ process_svg_files() {
     echo "SVG icons have been processed and saved to $OUTPUT_FILE"
 }
 
-process_svg_files "heroicons/src/24/solid/" "${MOUNTED_DIR}/build/icons-solid.svg"
-process_svg_files "heroicons/src/24/outline/" "${MOUNTED_DIR}/build/icons-outline.svg"
-process_svg_files "heroicons/src/20/solid/" "${MOUNTED_DIR}/build/icons-mini.svg"
-process_svg_files "heroicons/src/16/solid/" "${MOUNTED_DIR}/build/icons-micro.svg"
+process_svg_files "heroicons/src/24/solid/" "${MOUNTED_DIR}/build/icons-solid.svg" 24
+process_svg_files "heroicons/src/24/outline/" "${MOUNTED_DIR}/build/icons-outline.svg" 24
+process_svg_files "heroicons/src/20/solid/" "${MOUNTED_DIR}/build/icons-mini.svg" 20
+process_svg_files "heroicons/src/16/solid/" "${MOUNTED_DIR}/build/icons-micro.svg" 16
